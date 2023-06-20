@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package calculator;
+
+option go_package = "/grpc";
+
+service Calculator {
+    rpc Sum (CalculatorReq) returns (CalculatorRes) {}
+}
+
+message  CalculatorReq {
+    int32 a = 1;
+    int32 b = 2;
+}
+
+message CalculatorRes {
+    int64 sum = 1 ;
+}
