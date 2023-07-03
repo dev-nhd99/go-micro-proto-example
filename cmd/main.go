@@ -1,15 +1,15 @@
 package main
 
 import (
-	"net/http"
 	"context"
 	_ "fmt"
 	"log"
+	"net/http"
 
 	pb "github.com/go-micro-proto-example/pkg/proto/grpc"
-	"go-micro.dev/v4"
 	_ "github.com/go-micro/plugins/v4/registry/kubernetes"
 	"github.com/labstack/echo/v4"
+	"go-micro.dev/v4"
 )
 
 
