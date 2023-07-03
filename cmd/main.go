@@ -1,12 +1,15 @@
 package main
 
 import (
+	"net/http"
 	"context"
 	_ "fmt"
 	"log"
 
 	pb "github.com/go-micro-proto-example/pkg/proto/grpc"
 	"go-micro.dev/v4"
+	_ "github.com/go-micro/plugins/v4/registry/kubernetes"
+	"github.com/labstack/echo/v4"
 )
 
 
@@ -20,13 +23,26 @@ func (s *Server) Sum(ctx context.Context, req *pb.CalculatorReq,res *pb.Calculat
 }
 
 func main() {
-	// init server
+	//-- Start server 
+	e := echo.New()
+	e.GET("/check", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Go Micro Proto Example!")
+	})
+
+	go func() {
+		if err := e.Start(":3030"); err != nil {
+			e.Logger.Info("Shutting down the server:%v\n", err)
+		}
+	}()
+
+	//-- Start grpc service
+	// registry := kubernetes.NewRegistry()
 	service := micro.NewService(
-		micro.Name("Calculator"),
+		micro.Name("calculator.service"),
+		// micro.Registry(registry),
 	)
 
 	service.Init()
-	// init grpc
 	pb.RegisterCalculatorHandler(service.Server(),new(Server))
 
 	if err := service.Run(); err != nil {

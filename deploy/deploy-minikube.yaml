@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-micro-proto-example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-micro-proto-example
+  template:
+    metadata:
+      labels:
+        app: go-micro-proto-example
+    spec:
+      containers:
+        - name: your-container
+          image: nhddev/go-micro-proto-example
+          ports:
+            - containerPort: 3030
